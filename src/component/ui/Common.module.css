@@ -1,0 +1,27 @@
+.topBar{
+    background-color: #979797;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+}
+
+.dropdown{
+    width: 120px;
+    height: 30px;
+    background-color: #fff;
+    color: black;
+}
+
+.button :hover{
+    background-color: #fff;
+}
+
+

@@ -1,0 +1,72 @@
+.problemContainer{
+    padding-top: 10px;
+    flex-grow: 1;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.infoContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+    width: 310px;
+    height: 100%;
+    padding-right: 8px;
+}
+
+.DSContainer{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.index{
+    font-size: 18px;
+}
+
+section{
+    display: flex;
+    justify-content: space-between;
+    border-bottom: solid black 1px;
+    flex-direction: row;
+}
+
+.margins{
+    margin: 0 10px 10px;
+}
+
+.checkbox{
+    flex-grow: unset;
+    margin: 10px;
+    height: auto;
+}
+
+.li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.saveContainer{
+    display: flex;
+    justify-content: right;
+    padding-right: 10px;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.saveTemporally{
+    border: #979797 1px solid;
+    background-color: #fff;
+    color: black;
+}
+
+.borderRight{
+    border-right: 1px solid black;
+}
+
+.modify{
+    background-color: #979797;
+}
