@@ -14,6 +14,8 @@ export default function CreateTrans(){
         translator:[],
         max:0,
         pass:0,
+        checkStart:0,
+        checkEnd:0,
         testOverview:"",
         submitterMemo:"",
     })

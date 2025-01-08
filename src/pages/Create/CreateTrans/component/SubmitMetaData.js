@@ -4,6 +4,7 @@ import {fixed} from "../../../../component/const/DummyData";
 import {TransContext} from "./TransContext";
 import CheckboxInput from "../../../../component/input/CheckboxInput";
 import {Translator} from "../../../../component/const/ForTrans";
+import "./Style.css"
 
 export default function SubmitMetaData() {
 
@@ -33,7 +34,7 @@ export default function SubmitMetaData() {
     }, [metaData]);
 
     const variable = {
-        header: ["AI 번역기 (최대 4개 선택)", "총점", "합격 점수"],
+        header: ["AI 번역기 (최대 4개 선택)", "총점", "합격 점수", "관리자 확인 점수"],
         testOverview: {toChange: "testOverview", placeholder: "입력하세요"},
         submitterMemo: {toChange: "submitterMemo", placeholder: "입력하세요"}
     }
@@ -61,7 +62,7 @@ export default function SubmitMetaData() {
             <thead>
             <tr>
                 {variable.header?.map((it, index) => (
-                    <th style={index > 0 ? {width: "100px"} : null} key={it + index.toString()}>{it}</th>))}
+                    <th style={index > 0 && index !==3? {width: "100px"} : null} key={it + index.toString()}>{it}</th>))}
             </tr>
             </thead>
             <tbody>
@@ -73,6 +74,12 @@ export default function SubmitMetaData() {
                 </td>
                 <td><TextInput value={metaData} type="number" toChange="max" onChange={onChange}/></td>
                 <td><TextInput value={metaData} type="number" toChange="pass" onChange={onChange}/></td>
+                <td><input value={metaData.checkStart} className="input" onChange={e=>
+                    onChange(isNaN(parseInt(e.target.value))?'':parseInt(e.target.value),"checkStart")}/>
+                    ~
+                    <input value={metaData.checkEnd} className="input" onChange={e =>
+                        onChange(isNaN(parseInt(e.target.value))?'':parseInt(e.target.value),"checkEnd")}/>
+                </td>
             </tr>
             </tbody>
         </table>

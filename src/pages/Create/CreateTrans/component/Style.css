@@ -7,3 +7,14 @@
 .noCenter{
     text-align: left;
 }
+
+
+
+.input{
+    width: 50px;
+    padding: 3px 12px;
+    border: 1px solid #979797;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #898989;
+}
