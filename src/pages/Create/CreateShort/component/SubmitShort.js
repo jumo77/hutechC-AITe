@@ -1,37 +1,36 @@
-import TopBar from "../ui/TopBar";
-import {useEffect, useState} from "react";
-import styles from "./Submit.modules.css"
-import {answers, difficulty, options} from "../const/ForShort";
+import TopBar from "../../../../component/ui/TopBar";
+import {useContext, useEffect} from "react";
+import styles from "../../Create.css"
+import {answers, difficulty, options} from "../../../../component/const/ForShort";
 import TemporallySaveButton from "./IconButton/TemporallySaveButton";
 import SaveButton from "./IconButton/SaveButton";
-import {useLocation} from "react-router-dom";
+import Load from "../../../../component/const/Load";
+import {SearchContext} from "./SearchContext";
 
 export default function SubmitShort(){
 
-    const [value, setValue] = useState("객관식")
-    const [problems, setProblems] = useState([])
-
-    const {problem} = useLocation().state
+    const {value, setValue, problems, setProblems} = useContext(SearchContext)
 
     useEffect(() => {
-        console.log(problem)
-        if(problem)setProblems(problem)
+        let i = Load("problems")
+        if(i!==null)setProblems(JSON.parse(i))
     }, []);
 
     useEffect(() => {
-        console.log(problems)
-    }, [problems]);
+
+    }, []);
 
     const add = ()=>{
 
         if (value === options[0].label) setProblems((prevState)=>[
-            ...prevState, {
+            ...prevState,
+            {
                 title: "",
                 selections: ["","","",""],
                 answer: "정답",
                 type: options.filter(it=>it.label===value)[0].key,
                 difficulty: "난이도",
-                score: ""
+                score: 0
             }
         ])
 
@@ -42,7 +41,7 @@ export default function SubmitShort(){
                 type: options.filter(it=>it.label===value)[0].key,
                 answer: -1,
                 difficulty: "난이도",
-                score: ""
+                score: 0
             }
         ])
         else if (value === options[2].label) setProblems((prevState)=>[
@@ -50,7 +49,7 @@ export default function SubmitShort(){
                 title: "",
                 answers: ["","","",""],
                 difficulty: "난이도",
-                score: "",
+                score: 0,
                 type: options.filter(it=>it.label===value)[0].key,
                 allowTypo: false,
                 allowSpacingTypo: false,
@@ -135,9 +134,9 @@ export default function SubmitShort(){
     }
 
     return(
-        <main>
+        <div id="submitShort">
             <TopBar value={value} setValue={setValue} title="단답형" add={add}/>
-            {problems.map((it, index) => (
+            {problems?.map((it, index) => (
                 <section key={it.type + index.toString()} className={styles.index}>
                     <div className="problemContainer">
                         <div style={{display:"flex"}}>
@@ -190,10 +189,10 @@ export default function SubmitShort(){
                         </select></div>}
                         {it.type === options[2].key&& <><div className="li">
                             <input type="checkbox" checked={it.allowTypo} onChange={(e)=>{
-                            handleChangeAllowTypo(e.target.value, index)}} className="checkbox"/><span>오타 허용</span>
+                            handleChangeAllowTypo(!it.allowTypo, index)}} className="checkbox"/><span>오타 허용</span>
                         </div><div className="li">
                         <input type="checkbox" checked={it.allowSpacingTypo} onChange={(e)=>{
-                            handleChangeAllowSpacingTypo(e.target.value, index)}} className="checkbox"/><span>띄어쓰기 상관 없음</span>
+                            handleChangeAllowSpacingTypo(!it.allowSpacingTypo, index)}} className="checkbox"/><span>띄어쓰기 상관 없음</span>
                         </div>
                         </>}
                     </div>
@@ -201,8 +200,8 @@ export default function SubmitShort(){
             ))}
             <div className="saveContainer">
                 <TemporallySaveButton/>
-                <SaveButton problems={problems}/>
+                <SaveButton/>
             </div>
-        </main>
+        </div>
     )
 }

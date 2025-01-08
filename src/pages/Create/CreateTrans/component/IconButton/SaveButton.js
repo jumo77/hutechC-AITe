@@ -1,48 +1,9 @@
-import {useNavigate} from "react-router-dom";
-import {URL} from "../../const/ForRoute";
-import {answers, difficulty} from "../../const/ForShort";
+import {useContext} from "react";
+import {TransContext} from "../TransContext";
 
-export default function SaveButton({problems}){
+export default function SaveButton(){
 
-    const nav = useNavigate()
-
-    const onClick=()=>{
-        let i = -1
-        let problem = ""
-        let valid = true
-        problems.forEach((it, index)=>{
-            if (it.score !== undefined && (it.score===null || it.score<0)){
-                i = index
-                valid=false
-                problem= "점수"
-                return true
-            }
-            if (it.difficulty!==undefined && it.difficulty === difficulty[0]) {
-                i = index
-                valid=false
-                problem= "난이도"
-                return true
-            }
-            if (it.answer!==undefined && it.answer === answers.mulCho[0]){
-                i = index
-                valid=false
-                problem= "정답"
-                return true
-            }
-            if (it.answers!==undefined && it.answers.map(i => i==="")){
-                i = index
-                valid=false
-                problem= "정답"
-                return true
-            }
-            return false
-        })
-        if(!valid) alert((i + 1) + '번 문제의 '+problem+'값이 설정되지 않았습니다. 확인해주세요.')
-        else {
-        console.log("problems: ",problems)
-        nav(URL.submit.saved, {state:{problems: problems}})
-        }
-    }
+    const onClick=()=>{}
 
     return(
         <button onClick={onClick}>

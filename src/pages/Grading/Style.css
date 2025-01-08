@@ -1,0 +1,25 @@
+.bar{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkbox{
+    height: auto;
+}
+
+.tableHolder{
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.table{
+    max-width: 1600px;
+}
+
+.text{
+}

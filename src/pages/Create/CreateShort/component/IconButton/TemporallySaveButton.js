@@ -1,9 +1,13 @@
-import "../Submit.modules.css"
-import {useNavigate} from "react-router-dom";
-export default function TemporallySaveButton({problems}){
+import "../../../Create.css"
+import {useContext} from "react";
+import {SearchContext} from "../SearchContext";
+export default function TemporallySaveButton(){
+
+    const {clicked, setClicked} = useContext(SearchContext)
 
     const onClick=()=>{
-
+        setClicked(clicked+1)
+        alert("임시저장되었습니다.")
     }
 
     return(

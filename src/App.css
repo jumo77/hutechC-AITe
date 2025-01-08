@@ -1,0 +1,28 @@
+table{
+    width: 100%;
+    border-collapse: collapse;
+    display: table;
+    white-space: nowrap;
+}
+
+thead{
+    background-color: #F2F2F2;
+    border-top: solid 1px #979797;
+}
+
+tr{
+    border-bottom: solid 1px #979797;
+}
+
+th, td{
+    padding: 19px 15px;
+    font-weight: normal;
+    font-size: 14px;
+    color: black;
+    text-align: center;
+}
+
+.testingTopBar{
+    background-color: #516186;
+    color: white;
+}

@@ -1,0 +1,9 @@
+.center{
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+}
+
+
+.noCenter{
+    text-align: left;
+}

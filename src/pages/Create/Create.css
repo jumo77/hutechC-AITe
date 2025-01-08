@@ -1,5 +1,41 @@
+.metaContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchWindow{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: -100vh;
+    left: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,50%);
+    backdrop-filter: saturate(90%);
+    z-index: 10;
+}
+
+.active{
+    top: 0;
+}
+
+.resultFrame{
+    background-color: #fff;
+    width: 50%;
+    z-index: 20;
+    padding: 30px 0;
+}
+
+.result{
+    
+}
+
 .problemContainer{
-    padding-top: 10px;
+    padding: 10px 0;
     flex-grow: 1;
     display: flex;
     gap: 10px;
@@ -69,4 +105,18 @@ section{
 
 .modify{
     background-color: #979797;
+}
+
+.submit{
+    background-color: #38467E;
+}
+
+.search{
+    background-color: #979797;
+    margin: 0;
+}
+
+.width100{
+    box-sizing: border-box;
+    width: 100px !important;
 }
