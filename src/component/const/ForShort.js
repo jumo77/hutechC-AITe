@@ -1,3 +1,5 @@
+export const answer = "정답"
+
 export const options = [
     {label: "객관식", key:"mulCho"},
     {label: "OX", key:"ox"},
@@ -6,19 +8,11 @@ export const options = [
     {label: "설문(다중선택)", key:"surveyMulti"},
 ]
 
-export const answers = {
-    mulCho:["정답",1,2,3,4],
-    ox:["정답","O","X"],
-}
-
 export const difficulty = ["난이도","상","중","하"]
 
-export const test = "test"
+export const OX = [answer,"O", "X"]
 
-export const totalScore = (problems) =>{
-    return problems.reduce((accumulator, currentObject) => {
-        return accumulator + currentObject.score;}, 0)
-}
+export const test = "test"
 
 export const DummyProblem = [
     {
@@ -37,7 +31,7 @@ export const DummyProblem = [
         score: 4
     },{
         title: "팀 Rapid의 영문명은?",
-        selections: ["Team Rapid","Teem Rapid","Tim Rapid","Team Repid"],
+        selections: ["Team Rapid","Teem Rapid","Tim Rapid"],
         answer: "Team Rapid",
         type: options[0].key,
         difficulty: "난이도",

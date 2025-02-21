@@ -4,7 +4,7 @@ import {test} from "./ForShort";
 
 export default function StoreExam(metaData, problems){
     let key = ""
-    fixed.metaData.forEach(it=>{key = key+it+"<br/>"})
+    Object.values(fixed).forEach(it=>{key = key+it+"<br/>"})
     key+=test
     const exam = {
         pass: metaData.pass,

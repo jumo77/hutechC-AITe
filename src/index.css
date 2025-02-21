@@ -7,30 +7,35 @@
 }
 
 main, ul, table{
+  max-width: 1200px;
+}
+
+main, table{
   margin-inline-start: auto;
   margin-inline-end: auto;
-  max-width: 1200px;
 }
 
 main{
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   margin-top: 100px;
 }
 
-input, select{
+input, select, textarea{
   padding: 8px 12px;
-  font-size: 12px;
+  font-size: 0.9rem;
   width: auto;
-  height: 30px;
   border: 1px solid black;
   border-radius: 5px;
   background-color: #fff;
   flex-grow: 1;
 }
 
-input {
+input, select{
+  height: 30px;
+}
+
+input,textarea {
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -58,6 +63,11 @@ span{
 
 button{
   cursor: pointer;
+}
+
+textarea{
+  border: 1px solid black;
+
 }
 
 .hidden{

@@ -1,0 +1,146 @@
+.metaContainer{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.searchWindow{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: -100vh;
+    left: 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,50%);
+    backdrop-filter: saturate(90%);
+    z-index: 10;
+}
+
+.active{
+    top: 0;
+}
+
+.resultFrame{
+    background-color: #fff;
+    width: 50%;
+    z-index: 20;
+    padding: 30px 0;
+}
+
+.result{
+    
+}
+
+.problemContainer{
+    padding: 10px 0;
+    flex-grow: 1;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.infoContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 10px;
+    width: 310px;
+    height: 100%;
+    padding-right: 8px;
+}
+
+.DSContainer{
+    display: flex;
+    flex-direction: row;
+
+}
+
+.index{
+    font-size: 18px;
+}
+
+section{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.margins{
+    margin: 0 10px 10px;
+}
+
+.checkbox{
+    flex-grow: unset;
+    margin: 10px;
+    height: auto;
+}
+
+.li{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.saveContainer{
+    display: flex;
+    justify-content: right;
+    padding-right: 10px;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.saveTemporally{
+    border: #979797 1px solid;
+    background-color: #fff;
+    color: black;
+}
+
+.borderRight{
+    border-right: 1px solid black;
+}
+
+.modify{
+    background-color: #979797;
+}
+
+.submit{
+    background-color: #38467E;
+}
+
+.search{
+    background-color: #979797;
+    margin: 0;
+}
+
+.width100{
+    box-sizing: border-box;
+    width: 100px !important;
+}
+
+.questionHolder{
+    display: flex;
+    width: 100%;
+    padding: 10px 0;
+    border: 1px solid black;
+}
+
+.titleHolder{
+    width: 175px;
+    padding: 10px 0;
+    background-color: #F2F2F2;
+    border: 1px solid #979797;
+    border-left: none;
+}
+
+.contentsHolder{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #979797;
+    border-right: none;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}

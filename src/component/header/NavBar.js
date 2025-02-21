@@ -15,7 +15,7 @@ export default function NavBar(){
                 <Link to="/">공지사항</Link>
                 <div className={styles.iconContainer}>
                     <Link to="/alert"><BellIcon/></Link>
-                    <Link to="/profile"><ProfileIcon/></Link>
+                    <Link to="/signin"><ProfileIcon/></Link>
                 </div>
             </ul>
         </header>

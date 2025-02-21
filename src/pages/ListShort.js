@@ -7,7 +7,7 @@ export default function ListShort(){
             <table>
                 <thead>
                 <tr>
-                {fixed.header?.map(it=><th dangerouslySetInnerHTML={{__html:it}}/>)}
+                {Object.keys(fixed)?.map(it=><th dangerouslySetInnerHTML={{__html:it}}/>)}
                 </tr>
                 </thead>
                 <tbody>

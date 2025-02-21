@@ -1,0 +1,56 @@
+.form, .main{
+    flex-direction: column;
+    gap: 20px;
+}
+
+.main{
+    height: calc(100vh - 100px);
+}
+
+.title{
+    font-size: 20px;
+    font-weight: lighter;
+}
+
+.auth-label, .auth-input, .auth-divider{
+    width: 500px;
+}
+
+.auth-input, .button{
+    flex-grow: 0;
+    margin: 0;
+    height: 50px;
+}
+
+.auth-button{
+    height: 50px;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.iconButton{
+    justify-content: space-between;
+}
+
+.link{
+    text-decoration: underline;
+    text-underline: black;
+    cursor: pointer;
+}
+
+.checkLabel{
+    display: flex;
+    align-items: center;
+}
+
+.checkbox{
+    width: 24px;
+    height: 24px;
+}
+
+.divider{
+    height: 1px;
+    border: 1px solid #CFCFCF;
+}

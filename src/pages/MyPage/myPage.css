@@ -1,0 +1,29 @@
+.listHolderMyPage{
+    width: 15rem;
+    border: 1px solid #979797;
+    border-radius: 0.7rem;
+    padding: 1.2rem 0;
+}
+
+.sideBar{
+    width: fit-content;
+    height: fit-content;
+    align-items: center;
+}
+
+.titleMyPage{
+    font-weight: bold;
+}
+
+.listItemMyPage, .selectedMyPage, .titleMyPage{
+    text-align: left;
+    padding: 0.4rem 1.4rem ;
+}
+.listItemMyPage, .selectedMyPage{
+    cursor: pointer;
+}
+
+.selectedMyPage{
+    background-color: #979797;
+    color: white;
+}

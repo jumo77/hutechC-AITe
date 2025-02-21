@@ -7,11 +7,11 @@ table{
 
 thead{
     background-color: #F2F2F2;
-    border-top: solid 1px #979797;
+    border: solid 1px black;
 }
 
 tr{
-    border-bottom: solid 1px #979797;
+    border: solid 1px black;
 }
 
 th, td{
@@ -25,4 +25,29 @@ th, td{
 .testingTopBar{
     background-color: #516186;
     color: white;
+}
+
+.centerElements{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.column, .row{
+    display: flex;
+}
+
+.column{
+    flex-direction: column;
+}
+
+.row{
+    flex-direction: row;
 }
