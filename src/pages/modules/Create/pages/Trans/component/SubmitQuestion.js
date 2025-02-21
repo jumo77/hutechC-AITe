@@ -59,7 +59,7 @@ export default function SubmitQuestion() {
             case "hwp":
                 const formData = new FormData()
                 formData.append("hwp", file)
-                fetch("http://127.0.0.1:8080/ttt/hwp", {
+                fetch("http://localhost:8080/ttt/hwp", {
                     method: "POST",
                     body: formData
                 })
@@ -72,24 +72,28 @@ export default function SubmitQuestion() {
     }, [file]);
 
     useEffect(() => {
-        if (original !== "" && translate) {
-            Translator.forEach(it => {
-                if (metaData.translator.includes(it))
-                    fetch("http://localhost:8080/api/translate/deepl", {
-                        headers: {"Content-Type": "application/json"},
-                        method: "Post",
-                        body: JSON.stringify({text: [original], target_lang: "EN"})
-                    })
-                        .then(res => res.text())
-                        .then(res => setAnswer(res))
-                        .catch(err => console.error(err))
-            })
-        }
+        // if (original !== "" && translate) {
+        //     Translator.forEach(it => {
+        //         if (metaData.translator.includes(it))
+        //             fetch("http://localhost:8080/api/translate/deepl", {
+        //                 headers: {"Content-Type": "application/json"},
+        //                 method: "Post",
+        //                 body: JSON.stringify({text: [original], target_lang: "EN"})
+        //             })
+        //                 .then(res => res.text())
+        //                 .then(res => setAnswer(res))
+        //                 .catch(err => console.error(err))
+        //     })
+        // }
         if (original !== ""){
 
             const textarea = document.getElementById("originalTextArea")
-            textarea.style.height = "0px";
-            textarea.style.height = textarea.scrollHeight + "px";
+            if (!textarea){
+            }else {
+                console.log(textarea)
+                textarea.style.height = "0px";
+                textarea.style.height = textarea.scrollHeight + "px";
+            }
         }
     }, [original]);
 
@@ -177,7 +181,7 @@ export default function SubmitQuestion() {
                         </>
                         : <>
                             <td>
-                                {original ?<>
+                                {original ==="" ?<>
                                     <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" alt=""/>
                                     <span>텍스트 추출 중...</span>
                                     </>:
@@ -188,7 +192,7 @@ export default function SubmitQuestion() {
                             <td>
                                 {answer === "" ?<>
                                         <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" alt=""/>
-                                        <span>텍스트 추출 중...</span>
+                                        <span>번역 중...</span>
                                     </>:
                                     <textarea
                                         onChange={event =>
