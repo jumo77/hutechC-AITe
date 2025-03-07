@@ -51,3 +51,7 @@ th, td{
 .row{
     flex-direction: row;
 }
+
+.problemSection{
+    border: 1px black solid;
+}

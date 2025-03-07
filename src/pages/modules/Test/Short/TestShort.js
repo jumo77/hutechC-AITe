@@ -41,7 +41,7 @@ export default function TestShort(){
             </table>
             <TopBar title="출제 내용"/>
             {problems?.map((it, index) => (
-                <section key={it.type + index.toString()} className={styles.index}>
+                <section key={it.type + index.toString()} className={"problemSection"}>
                     <div className="problemContainer borderRight">
                         <div style={{display:"flex"}}>
                             <span style={styles.index}>{String(index+1).padStart(2, "0").padEnd(3, ".")+it.title}</span>

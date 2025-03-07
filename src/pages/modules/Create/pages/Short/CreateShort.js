@@ -30,6 +30,11 @@ export default function CreateShort() {
         StoreExam(metaData, problems)
     }, [clicked]);
 
+    useEffect(() => {
+        problems.length>1 && setMetaData(problems.reduce((acc, problem) => {
+            return acc + problem.score}, 0))
+    }, [problems]);
+
     const search = () => {
         if (searching==="") alert("검색어를 입력해주세요.")
         else {

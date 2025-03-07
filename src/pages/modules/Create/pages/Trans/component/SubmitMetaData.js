@@ -13,6 +13,7 @@ export default function SubmitMetaData() {
     const {metaData, setMetaData} = useContext(Context)
 
     const onChange = (value, toChange) => {
+        console.log(value)
         setMetaData(prev => ({
             ...prev,
             [toChange]: value
@@ -55,14 +56,16 @@ export default function SubmitMetaData() {
                 <td>
                     {Translator.map((it, index) =>
                         (<CheckboxInput key={index.toString() + it} index={index} metaData={metaData}
-                                        toChange="translator" label={it} onChange={changeTranslators}/>))}
+                            toChange="translator" label={it} onChange={changeTranslators}/>))}
                 </td>
                 <td><TextInput value={metaData} type="number" toChange="max" onChange={onChange}/></td>
                 <td><TextInput value={metaData} type="number" toChange="pass" onChange={onChange}/></td>
-                <td><input value={metaData.checkStart} className="input" onChange={e=>
+                <td><input value={metaData.checkStart} className="input" placeholder={'입력하세요'}
+                           onChange={e=>
                     onChange(isNaN(parseInt(e.target.value))?'':parseInt(e.target.value),"checkStart")}/>
                     ~
-                    <input value={metaData.checkEnd} className="input" onChange={e =>
+                    <input value={metaData.checkEnd} className="input" placeholder={'입력하세요'}
+                           onChange={e =>
                         onChange(isNaN(parseInt(e.target.value))?'':parseInt(e.target.value),"checkEnd")}/>
                 </td>
             </tr>

@@ -9,7 +9,7 @@ export default function CreateTrans(){
     const [file, setFile] = useState(null)
     const [original, setOriginal] = useState("")
     const [answer, setAnswer] = useState("")
-    const [fileType, setFileType] = useState(UploadFileType[0])
+    const [fileType, setFileType] = useState(UploadFileType[0].value)
     const [metaData, setMetaData] = useState({
         translator:[],
         max:0,

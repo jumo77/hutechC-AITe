@@ -29,7 +29,6 @@ export default function SubmitQuestion(){
                 score: 0
             }
         ])
-
         else if (value === options[1].label) setProblems((prevState)=>[
             ...prevState, {
                 title: "",
@@ -134,7 +133,7 @@ export default function SubmitQuestion(){
         <div id="submitShort">
             <TopBar value={value} setValue={setValue} title="단답형" add={add}/>
             {problems?.map((it, index) => (
-                <section key={it.type + index.toString()} className={styles.index}>
+                <section key={it.type + index.toString()} className={"problemSection"}>
                     <div className="problemContainer">
                         <div style={{display: "flex"}}>
                             <span style={styles.index}>{String(index + 1).padStart(2, "0").padEnd(3, ".")}</span>

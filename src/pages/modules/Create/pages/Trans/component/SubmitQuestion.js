@@ -2,12 +2,11 @@ import {useContext, useEffect, useState} from "react";
 import {Context} from "./Context";
 import {useDropzone} from "react-dropzone";
 import FindFileButton from "./IconButton/FindFileButton";
-import * as pdfjsLib from "pdfjs-dist";
 import {Translator, UploadFileType} from "../../../../../../component/const/ForTrans";
+import Post from "../../../../../../component/const/Post";
 
 export default function SubmitQuestion() {
     const {
-        metaData,
         file,
         setFile,
         original,
@@ -15,77 +14,99 @@ export default function SubmitQuestion() {
         answer,
         setAnswer,
         fileType,
-        setFileType
+        setFileType,
+        metaData,
     } = useContext(Context)
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
-
-    const [translate, setTranslate] = useState(false)
-    const loadPdf = async () => {
-        if (file) {
-            const fileReader = new FileReader();
-            fileReader.onload = async () => {
-                const loadingTask = pdfjsLib.getDocument({
-                    data: fileReader.result,
-                    cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/cmaps/',
-                });
-                const pdf = await loadingTask.promise;
-
-                let textContent = '';
-                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                    const page = await pdf.getPage(pageNum);
-                    const textContentItem = await page.getTextContent({normalizeWhitespace: false});
-                    textContent += textContentItem.items
-                        .map((item) => item.str)
-                        .join('');
-                }
-                setOriginal(textContent)
-            };
-            fileReader.readAsArrayBuffer(file);
-        }
-    };
 
     useEffect(() => {
         console.log(file?.name.split("."))
-        if (file)
-            switch (file?.name.split(".")[1]) {
-            case "pdf":
-                loadPdf()
-                    .then(() => {
-                        window.confirm("파일을 로딩했습니다. 번역은 결제가 필요합니다.") ?
-                            setTranslate(true) : setTranslate(false)
-                    })
-                    .catch(err => console.error(err))
-                break
-            case "hwp":
-                const formData = new FormData()
-                formData.append("hwp", file)
-                fetch("http://localhost:8080/ttt/hwp", {
-                    method: "POST",
-                    body: formData
+        if (file){
+            const formData = new FormData()
+            formData.append("inputFile", file)
+            // fetch("http://api.aiteditor.org/ttt/hwp", {
+            fetch("https://api.aiteditor.org/ftt/"+fileType, {
+                method: "POST",
+                body: formData
+            })
+                .then(async r => {
+                    if (r.ok) return r.text()
+                    throw new Error(`${r.status} ${await r.text()}`)
                 })
-                    .then(r=>r.text())
-                    .then(r=>setOriginal(r))
-                break
-            default:
-                alert("지원하지 않는 파일형식입니다.")
+                .then(r=>setOriginal(r))
+                .catch(console.error)
         }
     }, [file]);
 
+    const [transEx, setTransEx] = useState([])
+
     useEffect(() => {
-        // if (original !== "" && translate) {
-        //     Translator.forEach(it => {
-        //         if (metaData.translator.includes(it))
-        //             fetch("http://localhost:8080/api/translate/deepl", {
-        //                 headers: {"Content-Type": "application/json"},
-        //                 method: "Post",
-        //                 body: JSON.stringify({text: [original], target_lang: "EN"})
-        //             })
-        //                 .then(res => res.text())
-        //                 .then(res => setAnswer(res))
-        //                 .catch(err => console.error(err))
-        //     })
-        // }
-        if (original !== ""){
+        if (original !== "") {
+            if (metaData.translator.length===0){
+                alert('번역기를 선택해주세요.')
+                return
+            }
+            const a = original.split(".").slice(0,5).join(".");
+            Translator.forEach(it => {
+                if (metaData.translator.includes(it))
+                    switch (it) {
+                        case Translator[0]:
+                            Post('chatGpt/prompt', {
+                                model: "gpt-4o-mini",
+                                messages: [
+                                    {
+                                        role: "user",
+                                        content: "Translate following text to English. Don't add any other words. " + a
+                                    }
+                                ]
+                            })
+                                .then(res => res.json())
+                                .then(res => {
+                                    const _transEx = [...transEx]
+                                    _transEx.push(res['choices'][0]['message']['content'])
+                                    setTransEx(_transEx)
+                                })
+                            break
+                        case Translator[1]:
+                            break
+                        case Translator[2]:
+                            break
+                        case Translator[3]:
+                            Post('translate/google',{text: a, sourceLang: 'ko', targetLang: 'en'})
+                                .then(res => res.text())
+                                .then(res => {
+                                    const _transEx = [...transEx]
+                                    _transEx.push(res)
+                                    console.log('google',_transEx)
+                                    setTransEx(_transEx)
+                                })
+                            break;
+                        case Translator[4]:
+                            Post('translate/deepl',{text: [a], source_lang: "KO", target_lang: "EN"})
+                                .then(res => res.json())
+                                .then(res => {
+                                    const _transEx = [...transEx]
+                                    _transEx.push(res["translations"][0]['text'])
+                                    console.log('deepl',_transEx)
+                                    setTransEx(_transEx)
+                                })
+                                .catch(err => console.error(err))
+                            break;
+                        case Translator[5]:
+                            break
+                        case Translator[6]:
+                            Post('translate/naver',{text: a, source: "ko", target: "en"})
+                                .then(res => res.json())
+                                .then(res => {
+                                    const _transEx = [...transEx]
+                                    _transEx.push(res.message.result['translatedText'])
+                                    setTransEx(_transEx)
+                                })
+                            break;
+                        default:
+                            alert('잘못된 값입니다.');
+                    }
+
+            })
 
             const textarea = document.getElementById("originalTextArea")
             if (!textarea){
@@ -96,6 +117,10 @@ export default function SubmitQuestion() {
             }
         }
     }, [original]);
+
+    useEffect(() => {
+        console.log(transEx);
+    }, [transEx]);
 
     const set = (e)=>{
         console.log(e.target.value)
@@ -114,14 +139,14 @@ export default function SubmitQuestion() {
                     <th><select onChange={e => set(e)}>
                         {UploadFileType.map((it, index) =>
                             (<option selected={index === 0} disabled={index === 0}
-                                key={it + index.toString()} value={it}>{it}</option>))}
+                                key={it + index.toString()} value={it.key}>{it.value}</option>))}
                     </select></th>
                 </tr>
                 </thead>
                 <tbody>
-                {fileType === UploadFileType[0] ?
+                {!file && fileType === UploadFileType[0].key ?
                     <tr><td>업로드할 파일 형식을 선택해주세요.</td></tr>
-                    : fileType === UploadFileType[1] ?
+                    : fileType === UploadFileType[1].key ?
                         <tr>
                             <td id="file"
                                 style={isDragActive || isFileDialogActive ? {backgroundColor: "#f5f5f5"} : null} {...getRootProps()}>
@@ -137,7 +162,49 @@ export default function SubmitQuestion() {
                                 <FindFileButton/>
                             </td>
                         </tr>
-                        :
+                    : fileType === UploadFileType[2].key ?
+                        <tr>
+                            <td id="file"
+                                style={isDragActive || isFileDialogActive ? {backgroundColor: "#f5f5f5"} : null} {...getRootProps()}>
+                                <input {...getInputProps()}/>
+                                <div style={{marginTop: "20px"}}>
+                                    <img src="/images/sound.svg" alt=""/>
+                                    <img src="/images/to.svg" alt=""/>
+                                    <img src="/images/text.svg" alt=""/>
+                                </div>
+                                <p style={{marginTop: "15px"}}>업로드할 파일을 드래그하세요.</p>
+                            </td>
+                        </tr>
+                    : fileType === UploadFileType[3].key ?
+                        <tr>
+                            <td id="file"
+                                style={isDragActive || isFileDialogActive ? {backgroundColor: "#f5f5f5"} : null} {...getRootProps()}>
+                                <input {...getInputProps()}/>
+                                <div style={{marginTop: "20px", justifyContent:'center'}} className={'row'}>
+                                    <img src="/images/video.svg" alt=""/>
+                                    <img src="/images/toward.svg" alt=""/>
+                                    <img src="/images/text.svg" alt=""/>
+                                </div>
+                                <p style={{marginTop: "15px"}}>업로드할 파일을 드래그하세요.</p>
+                                <FindFileButton/>
+                            </td>
+                        </tr>
+                    : fileType === UploadFileType[4].key ?
+                        <tr>
+                            <td id="file"
+                                style={isDragActive || isFileDialogActive ? {backgroundColor: "#f5f5f5"} : null} {...getRootProps()}>
+                                <input {...getInputProps()}/>
+                                <img src="/images/fileIcon.svg" alt=""/>
+                                <p style={{marginTop: "15px"}}>업로드할 파일을 드래그하세요.</p>
+                                <div style={{marginTop: "20px"}}>
+                                    <img src="/images/pdf.svg" alt=""/>
+                                    <img src="/images/ppt.svg" alt=""/>
+                                    <img src="/images/doc.svg" alt=""/>
+                                    <img src="/images/txt.svg" alt=""/>
+                                </div>
+                                <FindFileButton/>
+                            </td>
+                        </tr> :
                         <tr>
                             <td id="file"
                                 style={isDragActive || isFileDialogActive ? {backgroundColor: "#f5f5f5"} : null} {...getRootProps()}>
@@ -190,13 +257,22 @@ export default function SubmitQuestion() {
                                         setOriginal(event.target.value)} value={original}/>}
                             </td>
                             <td>
-                                {answer === "" ?<>
+                                {transEx.length === 0? <>
                                         <img src="https://media.tenor.com/On7kvXhzml4AAAAj/loading-gif.gif" alt=""/>
                                         <span>번역 중...</span>
                                     </>:
-                                    <textarea
-                                        onChange={event =>
-                                        setAnswer(event.target.value)} value={answer} style={{width: "100%"}}/>}
+                                    transEx.length===1? <textarea value={transEx[0]} style={{width: "100%"}}/>:
+                                        <div style={{
+                                            display: 'grid',
+                                            gridTemplateColumns: 'repeat(2, 1fr)',
+                                            gridTemplateRows: 'repeat(2, 1fr)',
+                                            width: '100%',
+                                            height: '100%',}}>
+                                            {transEx.map((item, index) => (
+                                                <textarea key={index} value={item} style={{width:'50%', height:'50%'}}/>
+                                            ))}
+                                        </div>
+                                }
                             </td>
                         </>}
                 </tr></tbody>
