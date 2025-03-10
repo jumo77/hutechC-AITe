@@ -1,10 +1,11 @@
 export const Translator=["Chat-gpt",
 "Gemini",
-"Bing",
 "Google Translate",
 "DeepL",
 "WordVice",
-"Naver Papago"]
+"Naver Papago",
+"Systran",
+]
 export const UploadFileType = [
     {value: "파일 업로드", key: ''},
     {value: "문서파일", key: 'ttt'},

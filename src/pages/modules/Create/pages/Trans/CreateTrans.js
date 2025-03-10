@@ -10,6 +10,10 @@ export default function CreateTrans(){
     const [original, setOriginal] = useState("")
     const [answer, setAnswer] = useState("")
     const [fileType, setFileType] = useState(UploadFileType[0].value)
+    const [meta, setMeta] = useState({
+        source: "ko",
+        target: "en",
+    })
     const [metaData, setMetaData] = useState({
         translator:[],
         max:0,
@@ -22,7 +26,8 @@ export default function CreateTrans(){
 
     return(
         <>
-        <Context.Provider value={{file, setFile, metaData, setMetaData, original, setOriginal,answer, setAnswer, fileType, setFileType}}>
+        <Context.Provider value={{file, setFile, metaData, setMetaData, meta, setMeta,
+            original, setOriginal, answer, setAnswer, fileType, setFileType}}>
             <SubmitMetaData/>
             <SubmitQuestion/>
         </Context.Provider>

@@ -24,7 +24,7 @@ export default function SubmitQuestion() {
             const formData = new FormData()
             formData.append("inputFile", file)
             // fetch("http://api.aiteditor.org/ttt/hwp", {
-            fetch("https://api.aiteditor.org/ftt/"+fileType, {
+            fetch("http://localhost:8080/ftt/"+fileType, {
                 method: "POST",
                 body: formData
             })
@@ -46,66 +46,18 @@ export default function SubmitQuestion() {
                 return
             }
             const a = original.split(".").slice(0,5).join(".");
-            Translator.forEach(it => {
-                if (metaData.translator.includes(it))
-                    switch (it) {
-                        case Translator[0]:
-                            Post('chatGpt/prompt', {
-                                model: "gpt-4o-mini",
-                                messages: [
-                                    {
-                                        role: "user",
-                                        content: "Translate following text to English. Don't add any other words. " + a
-                                    }
-                                ]
-                            })
-                                .then(res => res.json())
-                                .then(res => {
-                                    const _transEx = [...transEx]
-                                    _transEx.push(res['choices'][0]['message']['content'])
-                                    setTransEx(_transEx)
-                                })
-                            break
-                        case Translator[1]:
-                            break
-                        case Translator[2]:
-                            break
-                        case Translator[3]:
-                            Post('translate/google',{text: a, sourceLang: 'ko', targetLang: 'en'})
-                                .then(res => res.text())
-                                .then(res => {
-                                    const _transEx = [...transEx]
-                                    _transEx.push(res)
-                                    console.log('google',_transEx)
-                                    setTransEx(_transEx)
-                                })
-                            break;
-                        case Translator[4]:
-                            Post('translate/deepl',{text: [a], source_lang: "KO", target_lang: "EN"})
-                                .then(res => res.json())
-                                .then(res => {
-                                    const _transEx = [...transEx]
-                                    _transEx.push(res["translations"][0]['text'])
-                                    console.log('deepl',_transEx)
-                                    setTransEx(_transEx)
-                                })
-                                .catch(err => console.error(err))
-                            break;
-                        case Translator[5]:
-                            break
-                        case Translator[6]:
-                            Post('translate/naver',{text: a, source: "ko", target: "en"})
-                                .then(res => res.json())
-                                .then(res => {
-                                    const _transEx = [...transEx]
-                                    _transEx.push(res.message.result['translatedText'])
-                                    setTransEx(_transEx)
-                                })
-                            break;
-                        default:
-                            alert('잘못된 값입니다.');
-                    }
-
+            metaData.translator.forEach(it => {
+                Post('translate/'+it.toLowerCase(), {
+                    source: 'ko',
+                    target: 'en',
+                    text: a
+                })
+                    .then(res => res.json())
+                    .then(res => {
+                        const _transEx = [...transEx]
+                        _transEx.push(res['choices'][0]['message']['content'])
+                        setTransEx(_transEx)
+                    })
             })
 
             const textarea = document.getElementById("originalTextArea")
