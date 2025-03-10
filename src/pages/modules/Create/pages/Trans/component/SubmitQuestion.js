@@ -2,7 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import {Context} from "./Context";
 import {useDropzone} from "react-dropzone";
 import FindFileButton from "./IconButton/FindFileButton";
-import {Translator, UploadFileType} from "../../../../../../component/const/ForTrans";
+import {UploadFileType} from "../../../../../../component/const/ForTrans";
 import Post from "../../../../../../component/const/Post";
 
 export default function SubmitQuestion() {
@@ -24,7 +24,8 @@ export default function SubmitQuestion() {
             const formData = new FormData()
             formData.append("inputFile", file)
             // fetch("http://api.aiteditor.org/ttt/hwp", {
-            fetch("http://localhost:8080/ftt/"+fileType, {
+            fetch("https://api.aiteditor.org/ftt/"+fileType, {
+            // fetch("http://localhost:8080/ftt/"+fileType, {
                 method: "POST",
                 body: formData
             })
